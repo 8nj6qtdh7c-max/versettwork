@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Redirecting — versettwork</title>
+  <!-- Meta refresh as a fallback (3 seconds) -->
+  <meta http-equiv="refresh" content="3;url=https://t.me/versettwork">
+  <style>
+    html,body{height:100%;margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:#0f1724;color:#e6eef8;display:flex;align-items:center;justify-content:center}
+    .card{max-width:520px;padding:28px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));box-shadow:0 8px 30px rgba(2,6,23,0.6);text-align:center}
+    h1{margin:0 0 8px;font-size:20px}
+    p{margin:0 0 18px;color:rgba(230,238,248,0.85)}
+    .btn{display:inline-block;padding:12px 18px;border-radius:10px;background:#2ea44f;color:white;text-decoration:none;font-weight:600}
+    .link{display:block;margin-top:12px;color:rgba(230,238,248,0.8);word-break:break-all}
+    .small{font-size:12px;color:rgba(230,238,248,0.6);margin-top:10px}
+  </style>
+</head>
+<body>
+  <div class="card" role="main" aria-live="polite">
+    <h1>Переадресация на Telegram</h1>
+    <p>Сейчас вы будете перенаправлены на наш канал/чат в Telegram.</p>
+    <a class="btn" id="openLink" href="https://t.me/versettwork" rel="noopener noreferrer" target="_blank">Открыть в Telegram</a>
+    <a class="link" href="https://t.me/versettwork" target="_blank" rel="noopener noreferrer">https://t.me/versettwork</a>
+    <div class="small">Если переадресация не сработала — нажмите кнопку или ссылку выше.</div>
+  </div>
+
+  <script>
+    // Try to open native Telegram app first (deep link). If it fails, fallback to https.
+    function openTelegram() {
+      var tg = 'tg://resolve?domain=versettwork';
+      var opened = false;
+      // Attempt to open native app
+      var ifrm = document.createElement('iframe');
+      ifrm.style.display = 'none';
+      ifrm.src = tg;
+      document.body.appendChild(ifrm);
+      // After short timeout, navigate to https (in case app didn't open)
+      setTimeout(function(){
+        window.location.href = 'https://t.me/versettwork';
+      }, 800);
+    }
+
+    // Run automatic redirect shortly after load (keeps meta refresh as backup)
+    window.addEventListener('load', function(){
+      try { openTelegram(); } catch(e){ window.location.href = 'https://t.me/versettwork'; }
+    });
+
+    // Make the button also try deep link
+    document.getElementById('openLink').addEventListener('click', function(e){
+      // allow default navigation but also attempt deep link
+      try { openTelegram(); } catch(err) {}
+    });
+  </script>
+</body>
+</html>
